@@ -1,12 +1,10 @@
 # KNN-OpenMPI
-An Open MPI implementation of the **K-Nearest Neighbor algorithm**. It has been designed to solve a general classification problem.<br><br>
+An Open MPI implementation of the **K-Nearest Neighbor algorithm**. It has been designed to solve classification problems.<br><br>
 This repository contains the code for the final parallel programming project of the Advanced Computer Architecture course (A.Y. 2022/23).
 
 ![Google Cloud](https://img.shields.io/badge/Google_Cloud-4285F4?style=for-the-badge&logo=google-cloud&logoColor=white)
 ![C++](https://img.shields.io/badge/C%2B%2B-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white)
 ![Python](https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue)
-<br>
-[![forthebadge](https://forthebadge.com/images/badges/powered-by-coders-sweat.svg)](https://forthebadge.com)
 
 ## Execution Instructions
 
@@ -47,3 +45,6 @@ Every parameter must be inserted and for the numerical ones they all must be gre
 
 When the program has finished running, both the obtained train and test accuracy are displayed, in order to assess some simple performance 
 metrics. Please note that better performance metrics can be further implemented to understand, for example, whether our classifier is biased on recognizing more a class with respect to others.
+
+***
+[![forthebadge](https://forthebadge.com/images/badges/powered-by-coders-sweat.svg)](https://forthebadge.com)
