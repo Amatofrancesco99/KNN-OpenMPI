@@ -46,5 +46,12 @@ Every parameter must be inserted and for the numerical ones they all must be gre
 When the program has finished running, both the obtained train and test accuracy are displayed, in order to assess some simple performance 
 metrics. Please note that better performance metrics can be further implemented to understand, for example, whether our classifier is biased on recognizing more a class with respect to others.
 
+An example of the output provided, using the standard **Iris dataset**, is the following:
+```bash
+$ ./executableFile ../Datasets/train.txt 120 ../Datasets/test.txt 30 10 4 3
+KNN train accuracy: 97.50%
+KNN test accuracy: 96.67%
+```
+
 ***
 [![forthebadge](https://forthebadge.com/images/badges/powered-by-coders-sweat.svg)](https://forthebadge.com)
