@@ -90,11 +90,11 @@ int print_error_and_exit(const char* error_message) {
 int print_description() {
     printf("\n\033[1;33mK-NEAREST NEIGHBOR CLASSIFICATION ALGORITHM - SERIAL VERSION\033[0m\n\n"
         "------------------------------------------------------------\n"
-        "The following program, written in C++, allows to perform a serial calculation (using just one core) of the well-known K-Nearest Neighbors "
+        "The following program, written in C++, allows to perform a serial calculation (using just one CPU) of the well-known K-Nearest Neighbors "
         "Machine Learning algorithm.\n\n"
         "It is a non-parametric supervised learning method, used, in this specific implementation, to solve a general purpose classification problem.\n"
         "The classification works basically by considering the K closest training points of a given sample, and the predicted class of the 'fresh' sample "
-        "is given by the most common class among its k nearest neighbors.\n"
+        "is given by the most common class among its K nearest neighbors.\n"
         "The distance functions used to understand what are the nearest points can be multiple, in this specific implementation the only one considered is the "
         "Euclidian one.\n\n"
         "There are some arguments that can be passed to this program, in order to work properly, that are:\n"
