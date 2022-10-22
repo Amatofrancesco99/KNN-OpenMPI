@@ -16,7 +16,7 @@ $ git clone https://github.com/Amatofrancesco99/KNN-OpenMPI.git
 ```
 
 ### 2 - Install OpenMPI
-Download Open MPI 4.0.5 from the official [Open MPI website](https://www.open-mpi.org/software/ompi/v4.0/) and install it following the [official guide](https://www.open-mpi.org/faq/?category=building#easy-build). The project has been developed using Open MPI 4.0.5, but consider dowloading any compatible version of your choice. Furthermore, if you are not interested in the parallel implementation, this step is optional.
+Download Open MPI 4.1.4 from the official [Open MPI website](https://www.open-mpi.org/software/ompi/v4.1/) and install it following the [official guide](https://www.open-mpi.org/faq/?category=building#easy-build). The project has been developed using Open MPI 4.1.4, but consider dowloading any compatible version of your choice. Furthermore, if you are not interested in the parallel implementation, this step is optional.
 
 ### 3 - Generate the Datasets
 Provided you have installed Python on you computer, if you do not have a dataset you want to run the K-Nearest Neighbor algorithm on, you can run the Python script ```generate.py```, inside the ```Datasets``` folder, to generate sample datasets of your choice.
@@ -35,8 +35,9 @@ $ ./executableFile [trainFile] [nTrainSamples] [testFile] [nTestSamples] [K] [nF
 
 If you want to compile and run the parallel application instead, moving inside the ```Parallel``` folder, then compile and run the Open MPI program:
 ```bash
-$ mpicc -Wall *.cpp -o executableFile
-$ mpirun -n N executableFile [parameters]
+$ mpic++ -Wall *.cpp -o executableFile
+$ mpirun main --help
+$ mpirun -n [N] executableFile [trainFile] [nTrainSamples] [testFile] [nTestSamples] [K] [nFeatures] [nClasses]
 ```
 
 In the two commands above, ```N``` is the number of cores you want to execute the parallel application on, ```executableFile``` is the name you want to give to the executable application, ```trainFile``` and ```testFile``` are the files containing the datasets, ```nTrainSamples``` and ```nTestSamples``` are the number of samples starting from the top to use in the two datasets, ```K``` is the number of nearest neighbors to consider, ```nFeatures``` is the number of features to consider for each training and test sample (*max 255*), ```nClasses``` is the number of sample classes to consider.

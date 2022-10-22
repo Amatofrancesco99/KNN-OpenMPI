@@ -3,4 +3,4 @@ __pycache__
 .vscode/
 
 #Binary files
-Serial/main
+main
