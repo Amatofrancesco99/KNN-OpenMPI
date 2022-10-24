@@ -1,16 +1,12 @@
-
 #include <string>
 
 
 // This function displays an error message and exit from program flow
-int print_error_and_exit(const char* error_message) {
-    printf("\033[1;31m%s\033[0m\n", error_message);
-    return 1;
-}
+void print_error(const char* error_message) { printf("\033[1;31m%s\033[0m\n", error_message); }
 
 
 // This function describes the program when the help parameter is inserted
-int print_description() {
+void print_description() {
     printf("\n\033[1;33mK-NEAREST NEIGHBOR CLASSIFICATION ALGORITHM - SERIAL VERSION\033[0m\n\n"
         "------------------------------------------------------------\n"
         "The following program, written in C++, allows to perform a serial calculation (using just one CPU) of the well known K-Nearest Neighbors "
@@ -28,9 +24,8 @@ int print_description() {
         "\t - Number of neighbors to consider \033[;32m[K]\033[0m\n"
         "\t - Number of features for each training and test sample (max 255) \033[;32m[nFeatures]\033[0m\n"
         "\t - Number of possible classes \033[;32m[nClasses]\033[0m\n"
-        "\nRun it: $ ./executableFile \033[;32m[trainFile] [nTrainSamples] [testFile] [nTestSamples] [K] [nFeatures] [nClasses]\033[0m\n\n\n"
+        "\n\033[1mRun it:\033[0m $ ./executableFile \033[;32m[trainFile] [nTrainSamples] [testFile] [nTestSamples] [K] [nFeatures] [nClasses]\033[0m\n\n\n"
         "\033[;34mProgram developed by F. Amato & A. Blindu (Data Science track)\n"
         "Advanced Computer Architecture project\n"
         "University of Pavia - A.Y. 2022/23\033[0m\n\n");
-    return 0;
 }
