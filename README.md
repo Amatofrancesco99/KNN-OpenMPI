@@ -1,5 +1,5 @@
 # KNN-OpenMPI
-An Open MPI implementation of the **K-Nearest Neighbor algorithm**. It has been designed to solve classification problems.<br><br>
+An Open MPI implementation of the **K-Nearest Neighbors algorithm**. It has been designed to solve classification problems.<br><br>
 This repository contains the code for the final parallel programming project of the **Advanced Computer Architecture** course (University of Pavia - A.Y. 2022/23).
 
 ![Google Cloud](https://img.shields.io/badge/Google_Cloud-4285F4?style=for-the-badge&logo=google-cloud&logoColor=white)
