@@ -27,7 +27,7 @@ void print_description() {
         "\t - Number of features for each training and test sample (max 255) \033[;32m[nFeatures]\033[0m\n"
         "\t - Number of possible classes \033[;32m[nClasses]\033[0m\n"
         "\n\033[1mRun it:\033[0m $ mpirun -n \033[;32m[N]\033[0m executableFile \033[;32m[trainFile] [nTrainSamples] [testFile] [nTestSamples] [K] [nFeatures] [nClasses]\033[0m\n\n\n"
-        "\033[;34mProgram developed by F. Amato & A. Blindu (Data Science track)\n"
+        "\033[;34mProgram developed by F. Amato (Data Science track)\n"
         "Advanced Computer Architecture project\n"
         "University of Pavia - A.Y. 2022/23\033[0m\n\n");
 }
