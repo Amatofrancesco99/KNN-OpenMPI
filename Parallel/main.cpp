@@ -96,7 +96,7 @@ int main(int argc, char** argv) {
     else { 
         if(argc < 8) { // Check that the number of inserted parameters is correct
             if (MYRANK == 0) print_error("Please insert all the necessary parameters (for a complete description use --help option)");
-            MPI_Finalize(); return EXIT_FAILURE;
+            MPI_Abort(MPI_COMM_WORLD, EXIT_FAILURE);
         } else { 
             // Loading files and parameters
             ifstream train_file;
@@ -114,18 +114,26 @@ int main(int argc, char** argv) {
 
             if (MYRANK == 0) {
                 // Check parameters correctness
+
+                // @TODO: FIX THE CASE WHEN N_TRAIN (N_TEST) is not divisible by SIZE (# cores) 
+                if ((N_TRAIN % SIZE != 0) || (N_TEST % SIZE != 0)) {
+                    print_error("Both N_TRAIN and N_TEST should be divisible by the number of cores (N)");
+                    MPI_Abort(MPI_COMM_WORLD, EXIT_FAILURE);
+                }
+
                 if (!train_file || !test_file) {
                     print_error("Error when trying to open the files. Please retry");
-                    MPI_Finalize(); return EXIT_FAILURE;
+                    MPI_Abort(MPI_COMM_WORLD, EXIT_FAILURE);
                 }
+                
                 if (N_TRAIN <= 0 || N_TEST <= 0 || K <= 0 || N_FEATURES <= 0 || N_CLASSES <= 0) {
                     print_error("All the numeric parameters must assume positive values");
-                    MPI_Finalize(); return EXIT_FAILURE;
+                    MPI_Abort(MPI_COMM_WORLD, EXIT_FAILURE);
                 }
                 
                 if (N_FEATURES > NMAX_FEATURES) {
                     print_error("The maximum number of features that a sample can have is 255");
-                    MPI_Finalize(); return EXIT_FAILURE;
+                    MPI_Abort(MPI_COMM_WORLD, EXIT_FAILURE);
                 }
 
                 /* Loading training & test datasets from the files passed as input - the master reads both the two datasets since 
@@ -134,7 +142,6 @@ int main(int argc, char** argv) {
                 read_dataset(test_file, test_samples, N_TEST, N_FEATURES); 
             }         
     
-            // @TODO: FIX THE CASE WHEN N_TRAIN (N_TEST) is not divisible by SIZE (# cores) 
 
             // Send to all slaves the train samples and assess the train accuracy
             MPI_Bcast(&train_samples, sizeof(train_samples), MPI_BYTE, 0, MPI_COMM_WORLD);
@@ -145,7 +152,6 @@ int main(int argc, char** argv) {
             double sum_weighted_nodes_train_accuracies;
             MPI_Reduce(&weighted_node_train_accuracy, &sum_weighted_nodes_train_accuracies, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);         
             if (MYRANK == 0) printf("KNN train accuracy: %.2f%%\n", sum_weighted_nodes_train_accuracies/SIZE);
-
 
             // Send to all slaves the test samples to work with and assess the test accuracy
             N_PROCESS = N_TEST/SIZE;
