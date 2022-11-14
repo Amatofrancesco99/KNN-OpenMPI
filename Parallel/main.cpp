@@ -147,7 +147,7 @@ int main(int argc, char** argv) {
             MPI_Bcast(&train_samples, sizeof(train_samples), MPI_BYTE, 0, MPI_COMM_WORLD);
             int N_PROCESS = N_TRAIN/SIZE;
             Sample train_samples_node_process[N_PROCESS];
-            MPI_Scatter(&train_samples, sizeof(train_samples_node_process), MPI_BYTE, &train_samples_node_process, sizeof(train_samples_node_process), MPI_BYTE, 0, MPI_COMM_WORLD);
+            for (int i = 0; i < N_PROCESS; i++) train_samples_node_process[i] = train_samples[i + MYRANK * N_PROCESS];
             double weighted_node_train_accuracy = get_accuracy(train_samples, train_samples_node_process, N_TRAIN, N_PROCESS, K, N_CLASSES, N_FEATURES);
             double sum_weighted_nodes_train_accuracies;
             MPI_Reduce(&weighted_node_train_accuracy, &sum_weighted_nodes_train_accuracies, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);         
