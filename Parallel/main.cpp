@@ -115,9 +115,9 @@ int main(int argc, char** argv) {
             if (MYRANK == 0) {
                 // Check parameters correctness
 
-                // @TODO: FIX THE CASE WHEN N_TRAIN (N_TEST) is not divisible by SIZE (# cores) 
-                if ((N_TRAIN % SIZE != 0) || (N_TEST % SIZE != 0)) {
-                    print_error("Both N_TRAIN and N_TEST should be divisible by the number of cores (N)");
+                // @TODO: FIX THE CASE WHEN N_TEST is not divisible by SIZE (# cores) 
+                if (N_TEST % SIZE != 0) {
+                    print_error("N_TEST should be divisible by the number of cores (N)");
                     MPI_Abort(MPI_COMM_WORLD, EXIT_FAILURE);
                 }
 
@@ -142,25 +142,36 @@ int main(int argc, char** argv) {
                 read_dataset(test_file, test_samples, N_TEST, N_FEATURES); 
             }         
     
-
-            // Send to all slaves the train samples and assess the train accuracy
+            /* ************************ TRAIN ACCURACY ************************ */
+            // Send to all slaves the train samples and assess the train accuracy (each node work on a train set partition)
             MPI_Bcast(&train_samples, sizeof(train_samples), MPI_BYTE, 0, MPI_COMM_WORLD);
-            int N_PROCESS = N_TRAIN/SIZE;
-            Sample train_samples_node_process[N_PROCESS];
-            for (int i = 0; i < N_PROCESS; i++) train_samples_node_process[i] = train_samples[i + MYRANK * N_PROCESS];
-            double weighted_node_train_accuracy = get_accuracy(train_samples, train_samples_node_process, N_TRAIN, N_PROCESS, K, N_CLASSES, N_FEATURES);
+            int n_processed_data = N_TRAIN / SIZE;
+            int REMINDER = N_TRAIN % SIZE;
+            // Fix the case when N_TRAIN is not divisible by the number of cores (the last CPU works also on reminder samples)
+            if (MYRANK == (SIZE - 1) && REMINDER != 0) n_processed_data += REMINDER;
+            Sample train_samples_node_process[n_processed_data];
+            for (int i = 0; i < n_processed_data; i++) {
+                if (MYRANK == (SIZE - 1) && REMINDER != 0)
+                    train_samples_node_process[i] = train_samples[i - REMINDER + MYRANK * n_processed_data];
+                else train_samples_node_process[i] = train_samples[i + MYRANK * n_processed_data];
+            }
+            // Each node work on different amount of data --> the accuracy score must be weighted by the number of processed samples
+            double weighted_node_train_accuracy = get_accuracy(train_samples, train_samples_node_process, N_TRAIN, n_processed_data, K, N_CLASSES, N_FEATURES) * n_processed_data;
+            // overall_accuracy = (1 / N_TRAIN) * Σ(accuracy_node * n_processed_data)
             double sum_weighted_nodes_train_accuracies;
             MPI_Reduce(&weighted_node_train_accuracy, &sum_weighted_nodes_train_accuracies, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);         
-            if (MYRANK == 0) printf("KNN train accuracy: %.2f%%\n", sum_weighted_nodes_train_accuracies/SIZE);
+            if (MYRANK == 0) printf("KNN train accuracy: %.2f%%\n", sum_weighted_nodes_train_accuracies / N_TRAIN);
 
+
+            /* ************************ TEST ACCURACY ************************ */
             // Send to all slaves the test samples to work with and assess the test accuracy
-            N_PROCESS = N_TEST/SIZE;
-            Sample test_samples_node_process[N_PROCESS];
+            n_processed_data = N_TEST / SIZE;
+            Sample test_samples_node_process[n_processed_data];
             MPI_Scatter(&test_samples, sizeof(test_samples_node_process), MPI_BYTE, &test_samples_node_process, sizeof(test_samples_node_process), MPI_BYTE, 0, MPI_COMM_WORLD);
-            double weighted_node_test_accuracy = get_accuracy(train_samples, test_samples_node_process, N_TRAIN, N_PROCESS, K, N_CLASSES, N_FEATURES);
+            double weighted_node_test_accuracy = get_accuracy(train_samples, test_samples_node_process, N_TRAIN, n_processed_data, K, N_CLASSES, N_FEATURES);
             double sum_weighted_nodes_test_accuracies;
             MPI_Reduce(&weighted_node_test_accuracy, &sum_weighted_nodes_test_accuracies, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
-            if (MYRANK == 0) printf("KNN test accuracy: %.2f%%\n", sum_weighted_nodes_test_accuracies/SIZE);
+            if (MYRANK == 0) printf("KNN test accuracy: %.2f%%\n", sum_weighted_nodes_test_accuracies / SIZE);
 
             MPI_Finalize();
 
