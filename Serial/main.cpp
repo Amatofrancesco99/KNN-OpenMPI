@@ -123,8 +123,8 @@ int main(int argc, char** argv) {
             read_dataset(test_file, test_samples, N_TEST, N_FEATURES);
 
             // Assess the train & test accuracies of the obtained KNN model
-            printf("KNN train accuracy: %.2f%%\n", get_accuracy(train_samples, train_samples, N_TRAIN, N_TRAIN, K, N_CLASSES, N_FEATURES));
-            printf("KNN test accuracy: %.2f%%\n", get_accuracy(train_samples, test_samples, N_TRAIN, N_TEST, K, N_CLASSES, N_FEATURES));
+            printf("%dNN Train accuracy: %.2f%%\n", K, get_accuracy(train_samples, train_samples, N_TRAIN, N_TRAIN, K, N_CLASSES, N_FEATURES));
+            printf("%dNN Test accuracy: %.2f%%\n", K, get_accuracy(train_samples, test_samples, N_TRAIN, N_TEST, K, N_CLASSES, N_FEATURES));
 
             return EXIT_SUCCESS;
         }

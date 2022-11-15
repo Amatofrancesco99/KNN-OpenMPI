@@ -1,6 +1,6 @@
 __pycache__
 .DS_Store
 .vscode/
-main
+*.o
 Report/*
 !Report/paper.pdf
