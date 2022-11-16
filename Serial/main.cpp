@@ -71,8 +71,7 @@ double get_accuracy(Sample train_samples[], Sample test_samples[], int N_TRAIN, 
 void read_dataset(ifstream& file, Sample dataset_samples[], int N_SAMPLES, int N_FEATURES) {
     file.seekg(0, ios::beg);
     while (!file.eof()) {
-        int i;
-        for (i = 0; i <= N_SAMPLES; i++) {
+        for (int i = 0; i <= N_SAMPLES; i++) {
             for (int j = 0; j < N_FEATURES; j++) file >> dataset_samples[i].features[j];
             file >> dataset_samples[i]._class;
         }
