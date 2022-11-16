@@ -42,10 +42,13 @@ $ mpirun -n [N] executableFile.o [trainFile] [nTrainSamples] [testFile] [nTestSa
 
 In the two commands above, ```N``` is the number of cores you want to execute the parallel application on, ```executableFile``` is the name you want to give to the executable application, ```trainFile``` and ```testFile``` are the files containing the datasets, ```nTrainSamples``` and ```nTestSamples``` are the number of samples starting from the top to use in the two datasets, ```K``` is the number of nearest neighbors to consider, ```nFeatures``` is the number of features to consider for each training and test sample (*max 255*), ```nClasses``` is the number of sample classes to consider.
 
-Every parameter must be inserted and for the numerical ones they all must be greater than 0.
+All specified parameters must be inserted and for the numerical ones they all must be greater than 0.
 
 When the program has finished running, both the obtained train and test accuracy are displayed, in order to assess some simple performance 
-metrics. Please note that better performance metrics can be further implemented to understand, for example, whether our classifier is biased on recognizing more a class with respect to others.
+metrics. Please note that some improvements can be implemented in further iterations, such as: 
+- normalize the features in order to weight all of them in the same manner;
+- specify other distance functions (not just the Euclidean one);
+- obtain better performance metrics (like confusion matrix, instead of just overall accuracy), to better understand whether the obtained model is more polarized in recognizing a specific class with respect to another.
 
 ## Example
 An example of the output provided, using the standard **Iris dataset** is the following (both Serial and Parallel version are providing same results):
