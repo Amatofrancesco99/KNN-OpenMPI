@@ -23,7 +23,8 @@ Provided you have installed Python on you computer, if you do not have a dataset
 
 Please note that if you intend to run the application with your own dataset, it must comply some simple requisites:
 - each line of the (train/test) file must represent a single data point, with the coordinates separated by a single space;
-- the last element of each line must represent the class of the sample, and must be an integer value.
+- all the numerical features (except the target one which is categorical) should be normalized a priori;
+- the last element of each line must represent the class of the sample, and must be an integer value;
 
 ### 4 - Compile and Run the Program
 To compile and run the serial application, run the following commands, moving inside the ```Serial``` folder:
@@ -46,7 +47,6 @@ All specified parameters must be inserted and for the numerical ones they all mu
 
 When the program has finished running, both the obtained train and test accuracy are displayed, in order to assess some simple performance 
 metrics. Please note that some improvements can be implemented in further iterations, such as: 
-- normalize the features in order to weight all of them in the same manner;
 - specify other distance functions (not just the Euclidean one);
 - obtain better performance metrics (like confusion matrix, instead of just overall accuracy), to better understand whether the obtained model is more polarized in recognizing a specific class with respect to another.
 
