@@ -29,14 +29,14 @@ Please note that if you intend to run the application with your own dataset, it 
 ### 4 - Compile and Run the Program
 To compile and run the serial application, run the following commands, moving inside the ```Serial``` folder:
 ```bash
-$ g++ -Wall *.cpp -o executableFile.o
+$ g++ -Wall main.cpp -o executableFile.o
 $ ./executableFile.o --help
 $ ./executableFile.o [trainFile] [nTrainSamples] [testFile] [nTestSamples] [K] [nFeatures] [nClasses]
 ```
 
 If you want to compile and run the parallel application instead, moving inside the ```Parallel``` folder, then compile and run the Open MPI program:
 ```bash
-$ mpic++ -Wall *.cpp -o executableFile.o
+$ mpic++ -Wall main.cpp -o executableFile.o
 $ mpirun executableFile.o --help
 $ mpirun -n [N] executableFile.o [trainFile] [nTrainSamples] [testFile] [nTestSamples] [K] [nFeatures] [nClasses]
 ```
