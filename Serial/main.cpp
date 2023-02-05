@@ -1,4 +1,4 @@
-#include <string>
+#include <cstring>
 #include <math.h>
 #include <algorithm>
 #include <fstream>
