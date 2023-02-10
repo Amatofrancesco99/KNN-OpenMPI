@@ -19,7 +19,7 @@ $ git clone https://github.com/Amatofrancesco99/KNN-OpenMPI.git
 Download Open MPI 4.1.4 from the official [Open MPI website](https://www.open-mpi.org/software/ompi/v4.1/) and install it following the [official guide](https://www.open-mpi.org/faq/?category=building#easy-build). The project has been developed using Open MPI 4.1.4, but consider dowloading any compatible version of your choice. Furthermore, if you are not interested in the parallel implementation, this step is optional.
 
 ### 3 - Generate the Datasets
-Provided you have installed Python on you computer, if you do not have a dataset you want to run the K-Nearest Neighbor algorithm on, you can run the Python script ```generate.py```, inside the ```Datasets``` folder, to generate sample datasets of your choice.
+Provided you have installed Python on you computer, if you do not have a dataset you want to run the K-Nearest Neighbor algorithm on, you can run the Python script ```generate.py```, inside the ```Datasets``` folder, to generate a sample dataset.
 
 Please note that if you intend to run the application with your own dataset, it must comply some simple requisites:
 - each line of the (train/test) file must represent a single data point, with the coordinates separated by a single space;
