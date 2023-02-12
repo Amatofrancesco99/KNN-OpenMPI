@@ -181,7 +181,17 @@ int main(int argc, char** argv) {
                 printf("%dNN Test accuracy: %.2f%%\n", K, ((sum_nodes_test_accuracies * n_processed_data) + weighted_reminder_accuracy) / N_TEST);
                 double endTime= MPI_Wtime();
                 double timeOfExecution = endTime - startTime;
+                // Print the execution time and write those details into a specific file
                 printf("\033[;32mExecution time: %.3fs \033[0m(%d overall samples, %d working nodes)\n", timeOfExecution, N_TRAIN + N_TEST, SIZE);
+                std::ofstream outfile;
+                outfile.open("execution-details.txt", std::ios_base::app); // append instead of overwrite
+                outfile << timeOfExecution;
+                outfile << " ";
+                outfile << N_TRAIN+N_TEST;
+                outfile << " ";
+                outfile << SIZE;
+                outfile << "\n";
+                outfile.close();
             }
 
             MPI_Finalize();
