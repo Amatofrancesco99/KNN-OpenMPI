@@ -4,6 +4,27 @@
 void print_error(const char* error_message) { printf("\033[1;31m%s\033[0m\n", error_message); }
 
 
+// Function that returns a boolean value indicating whether input file is empty or not
+bool check_if_empty(std::ofstream &file){
+    file.seekp(0, std::ios_base::end);  // go to end
+    bool empty = (file.tellp() == 0);
+    return empty;
+}
+
+
+// This function saves into a file, passed as parameter, the execution time (in seconds) and the configuration
+void save_execution_details(const char* file, int N_SAMPLES, int N_SLAVES, double EXECUTION_TIME) { 
+    std::ofstream outfile;
+    outfile.open(file, std::ios_base::app); // append instead of overwrite
+    // If the file is empty add the header line
+    if (check_if_empty(outfile)){
+        outfile << "N_SAMPLES, N_SLAVES, EXECUTION_TIME \n";
+    }
+    outfile << N_SAMPLES << ", " << N_SLAVES << ", " << EXECUTION_TIME << "\n";
+    outfile.close();
+}
+
+
 // This function describes the program when the help parameter is inserted
 void print_description() {
     printf("\n\033[1;33mK-NEAREST NEIGHBOR CLASSIFICATION ALGORITHM - PARALLEL VERSION\033[0m\n\n"

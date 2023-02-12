@@ -86,7 +86,7 @@ int main(int argc, char** argv) {
     MPI_Init(&argc, &argv);
     MPI_Comm_rank(MPI_COMM_WORLD, &MYRANK);
     MPI_Comm_size(MPI_COMM_WORLD, &SIZE);
-    double startTime= MPI_Wtime();
+    double startTime= MPI_Wtime(); //start timer
 
     // Help description
     if((argc == 2 && strcmp(argv[1], "--help") == 0)) {
@@ -179,19 +179,12 @@ int main(int argc, char** argv) {
                     weighted_reminder_accuracy = get_accuracy(train_samples, test_samples_node_process, N_TRAIN, REMINDER, K, N_CLASSES, N_FEATURES) * REMINDER;
                 } 
                 printf("%dNN Test accuracy: %.2f%%\n", K, ((sum_nodes_test_accuracies * n_processed_data) + weighted_reminder_accuracy) / N_TEST);
+                
+                // Print the execution time and write those details into a separated file
                 double endTime= MPI_Wtime();
                 double timeOfExecution = endTime - startTime;
-                // Print the execution time and write those details into a specific file
                 printf("\033[;32mExecution time: %.3fs \033[0m(%d overall samples, %d working nodes)\n", timeOfExecution, N_TRAIN + N_TEST, SIZE);
-                std::ofstream outfile;
-                outfile.open("execution-details.txt", std::ios_base::app); // append instead of overwrite
-                outfile << timeOfExecution;
-                outfile << " ";
-                outfile << N_TRAIN+N_TEST;
-                outfile << " ";
-                outfile << SIZE;
-                outfile << "\n";
-                outfile.close();
+                save_execution_details("executions-details.csv", N_TRAIN + N_TEST, SIZE, timeOfExecution);
             }
 
             MPI_Finalize();
