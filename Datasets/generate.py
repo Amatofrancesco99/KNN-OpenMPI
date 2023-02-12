@@ -5,6 +5,7 @@ from sklearn.model_selection import train_test_split
 import numpy as np, sys, utils
 
 if len(sys.argv) != 6:
+    utils.print_error("It seems you did not pass all the required parameters to generate the train and test datasets.")
     utils.print_description()
     exit() 
 else:
@@ -13,6 +14,14 @@ else:
     n_classes = int(sys.argv[3])
     split = int(sys.argv[4])
     apply_scaling = bool(int(sys.argv[5]))
+    
+    # Checks on passed parameters
+    if (n_samples <= 0 or n_features <= 0 or n_classes <= 0 or split <= 0 or apply_scaling < 0):
+        utils.print_error("All the numeric parameters must assume positive values.")
+        exit()
+    if (n_features > 255):
+        utils.print_error("The maximum number of features that a sample can have is 255.")
+        exit()
 
 # Generate dataset and divide in train & test
 X, y = datasets.make_classification(n_samples=n_samples, n_features=n_features, n_informative=n_classes, n_classes=n_classes)
