@@ -181,7 +181,7 @@ int main(int argc, char** argv) {
                 printf("%dNN Test accuracy: %.2f%%\n", K, ((sum_nodes_test_accuracies * n_processed_data) + weighted_reminder_accuracy) / N_TEST);
                 double endTime= MPI_Wtime();
                 double timeOfExecution = endTime - startTime;
-                printf("Time of execution: %.4f s\n", timeOfExecution);
+                printf("\033[;32mExecution time: %.3fs \033[0m(%d overall samples, %d working nodes)\n", timeOfExecution, N_TRAIN + N_TEST, SIZE);
             }
 
             MPI_Finalize();
