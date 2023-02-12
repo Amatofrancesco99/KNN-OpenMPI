@@ -30,7 +30,6 @@ In the command illustrated above, ```n_samples``` is the number of samples you w
 
 All specified parameters must be inserted for a correct behavior.
 
-\
 **Note** that if you intend to run the application with your own dataset, it must comply some requisites:
 - each line of the (train/test) file must represent a single data point, with the coordinates separated by a single space;
 - all the numerical features (except the target one which is categorical) should be normalized a priori for well-known interpretability issues;
