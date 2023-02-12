@@ -1,4 +1,9 @@
 #include <mpi.h>
+#include <omp.h>
+#include <omp.h>
+#include <omp.h>
+#include <omp.h>
+#include <omp.h>
 #include <cstring>
 #include <math.h>
 #include <algorithm>
@@ -86,6 +91,7 @@ int main(int argc, char** argv) {
     MPI_Init(&argc, &argv);
     MPI_Comm_rank(MPI_COMM_WORLD, &MYRANK);
     MPI_Comm_size(MPI_COMM_WORLD, &SIZE);
+    double startTime= MPI_Wtime();
 
     // Help description
     if((argc == 2 && strcmp(argv[1], "--help") == 0)) {
@@ -178,6 +184,9 @@ int main(int argc, char** argv) {
                     weighted_reminder_accuracy = get_accuracy(train_samples, test_samples_node_process, N_TRAIN, REMINDER, K, N_CLASSES, N_FEATURES) * REMINDER;
                 } 
                 printf("%dNN Test accuracy: %.2f%%\n", K, ((sum_nodes_test_accuracies * n_processed_data) + weighted_reminder_accuracy) / N_TEST);
+                double endTime= MPI_Wtime();
+                double timeOfExecution = endTime - startTime;
+                printf("Time of execution: %.4f s\n", timeOfExecution);
             }
 
             MPI_Finalize();
