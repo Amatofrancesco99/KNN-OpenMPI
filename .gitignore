@@ -3,4 +3,5 @@ __pycache__
 .vscode/
 *.o
 Report/*
+!Report/serial-analysis/
 !Report/paper.pdf
