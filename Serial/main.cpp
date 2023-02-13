@@ -114,10 +114,10 @@ int main(int argc, char** argv) {
             }
 
             // Loading training dataset from the file passed as input
-            Sample train_samples[N_TRAIN];
+            Sample* train_samples= (Sample*)malloc(N_TRAIN * sizeof(Sample));
             read_dataset(train_file, train_samples, N_TRAIN, N_FEATURES);
             // Loading testing dataset from the file passed as input
-            Sample test_samples[N_TEST];
+            Sample* test_samples=(Sample*)malloc(N_TEST * sizeof(Sample));
             read_dataset(test_file, test_samples, N_TEST, N_FEATURES);
 
             // Assess the train & test accuracies of the obtained KNN model
