@@ -30,7 +30,7 @@ If you want to run it, move inside the ```Datasets``` folder, and run the follow
 $ python3 generate.py [n_samples] [n_features] [n_classes] [split] [min-max_scaling]
 ```
 
-In the command illustrated above, ```n_samples``` is the number of samples you want to generate, ```n_features``` is the number of features that each sample must have, ```n_classes``` is the overall number of possible classes, ```split``` is the percentage of samples to put into the train set (the ramaining into the test, allowed values range from 0 to 100 - extreme excluded), ```min-max_scaling``` allows to select whether to apply MinMax scaling to the numerical features (1 to apply it, 0 otherwise).
+In the command illustrated above, ```n_samples``` is the number of samples you want to generate, ```n_features``` is the number of features that each sample must have (*max 255*), ```n_classes``` is the overall number of possible classes, ```split``` is the percentage of samples to put into the train set (the ramaining into the test, allowed values range from 0 to 100 - extreme excluded), ```min-max_scaling``` allows to select whether to apply MinMax scaling to the numerical features (1 to apply it, 0 otherwise).
 
 All specified parameters must be inserted for a correct behavior.
 
