@@ -183,8 +183,8 @@ int main(int argc, char** argv) {
                 // Print the execution time and write those details into a separated file
                 double endTime= MPI_Wtime();
                 double timeOfExecution = endTime - startTime;
-                printf("\033[;32mExecution time: %.3fs \033[0m(%d overall samples, %d working nodes)\n", timeOfExecution, N_TRAIN + N_TEST, SIZE);
-                save_execution_details("executions-details.csv", N_TRAIN + N_TEST, SIZE, timeOfExecution);
+                printf("\033[;32mExecution time: %.3fs \033[0m(%d overall samples, %d number of features, %d working nodes)\n", timeOfExecution, N_FEATURES, N_TRAIN + N_TEST, SIZE);
+                save_execution_details("executions-details.csv", N_TRAIN + N_TEST, N_FEATURES, SIZE, timeOfExecution);
             }
 
             MPI_Finalize();
