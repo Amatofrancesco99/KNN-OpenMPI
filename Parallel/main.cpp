@@ -185,7 +185,7 @@ int main(int argc, char** argv) {
                 double endTime= MPI_Wtime();
                 double timeOfExecution = endTime - startTime;
                 printf("\033[;32mExecution time: %.3fs \033[0m(%d overall samples, %d working nodes)\n", timeOfExecution, N_TRAIN + N_TEST, SIZE);
-                save_execution_details("executions-details.csv", N_TRAIN + N_TEST, N_FEATURES, SIZE, timeOfExecution);
+                save_execution_details("./Tests/Results/executions-details.csv", N_TRAIN + N_TEST, N_FEATURES, SIZE, timeOfExecution);
             }
 
             // Deallocate memory
