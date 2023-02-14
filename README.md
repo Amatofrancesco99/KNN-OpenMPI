@@ -64,16 +64,12 @@ metrics. Please note that some improvements can be implemented in further iterat
 - obtain better performance metrics (like confusion matrix, instead of just overall accuracy), to better understand whether the obtained model is more polarized in recognizing a specific class with respect to another.
 
 ## Example
-An example of the output provided, using the **Iris dataset** is the following (both Serial and Parallel version are providing same results):
+An example of the output provided, using the **Iris dataset** is the following (both Serial and Parallel version are providing almost same results, not exactly equal in some cases due to averages and approximations):
 ```bash
 $ cd Serial
-$ ./executableFile.o ../Datasets/train.txt 120 ../Datasets/test.txt 29 2 4 3
-2NN Train accuracy: 96.67%
-2NN Test accuracy: 96.55%
+$ ./executableFile.o ../Datasets/train.txt 120 ../Datasets/test.txt 30 2 4 3
 $ cd ../Parallel
-$ mpirun -n 2 executableFile.o ../Datasets/train.txt 120 ../Datasets/test.txt 29 2 4 3
-2NN Train accuracy: 96.67%
-2NN Test accuracy: 96.55%
+$ mpirun -n 2 executableFile.o ../Datasets/train.txt 120 ../Datasets/test.txt 30 2 4 3
 ```
 
 ***
