@@ -114,10 +114,10 @@ int main(int argc, char** argv) {
             }
 
             // Loading training dataset from the file passed as input
-            Sample* train_samples = (Sample*)malloc(N_TRAIN * sizeof(Sample));
+            Sample* train_samples = new Sample[N_TRAIN];
             read_dataset(train_file, train_samples, N_TRAIN, N_FEATURES);
             // Loading testing dataset from the file passed as input
-            Sample* test_samples = (Sample*)malloc(N_TEST * sizeof(Sample));
+            Sample* test_samples = new Sample[N_TEST];
             read_dataset(test_file, test_samples, N_TEST, N_FEATURES);
 
             // Assess the train & test accuracies of the obtained KNN model
@@ -125,8 +125,8 @@ int main(int argc, char** argv) {
             printf("%dNN Test accuracy: %.2f%%\n", K, get_accuracy(train_samples, test_samples, N_TRAIN, N_TEST, K, N_CLASSES, N_FEATURES));
 
             // Deallocate memory
-            free(train_samples);
-            free(test_samples);
+            delete[] train_samples;
+            delete[] test_samples;
             
             return EXIT_SUCCESS;
         }

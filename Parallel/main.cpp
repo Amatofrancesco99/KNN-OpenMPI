@@ -110,7 +110,8 @@ int main(int argc, char** argv) {
             int N_FEATURES = stoi(argv[6]);
             int N_CLASSES = stoi(argv[7]);
 
-            Sample train_samples[N_TRAIN], test_samples[N_TEST];
+            Sample* train_samples = new Sample[N_TRAIN];
+            Sample* test_samples = new Sample[N_TEST];
 
             if (MYRANK == 0) {
                 // Check parameters correctness
@@ -137,12 +138,12 @@ int main(int argc, char** argv) {
     
             /* ************************ TRAIN ACCURACY ************************ */
             // Send to all slaves the train samples and assess the train accuracy (each node work on a train set partition)
-            MPI_Bcast(&train_samples, sizeof(train_samples), MPI_BYTE, 0, MPI_COMM_WORLD);
+            MPI_Bcast(train_samples, sizeof(train_samples), MPI_BYTE, 0, MPI_COMM_WORLD);
             int n_processed_data = N_TRAIN / SIZE;
             int REMINDER = N_TRAIN % SIZE;
             // Fix the case when N_TRAIN is not divisible by the number of cores (the last CPU works also on reminder samples)
             if (MYRANK == (SIZE - 1) && REMINDER != 0) n_processed_data += REMINDER;
-            Sample train_samples_node_process[n_processed_data];
+            Sample* train_samples_node_process = new Sample[n_processed_data];
             // Useless here to scatter (CPUs already have the entire train set)
             for (int i = 0; i < n_processed_data; i++) {
                 if (MYRANK == (SIZE - 1) && REMINDER != 0)
@@ -160,8 +161,8 @@ int main(int argc, char** argv) {
             /* ************************ TEST ACCURACY ************************ */
             // Send to all slaves the test samples to work with and assess the test accuracy
             n_processed_data = N_TEST / SIZE;
-            Sample test_samples_node_process[n_processed_data];
-            MPI_Scatter(&test_samples, sizeof(test_samples_node_process), MPI_BYTE, &test_samples_node_process, sizeof(test_samples_node_process), MPI_BYTE, 0, MPI_COMM_WORLD);
+            Sample* test_samples_node_process = new Sample[n_processed_data];
+            MPI_Scatter(test_samples, sizeof(test_samples_node_process), MPI_BYTE, test_samples_node_process, sizeof(test_samples_node_process), MPI_BYTE, 0, MPI_COMM_WORLD);
             // Each node work on same amount of data (except the master node in case N_TEST is not divisible by the number of specified CPUs)
             double node_test_accuracy = get_accuracy(train_samples, test_samples_node_process, N_TRAIN, n_processed_data, K, N_CLASSES, N_FEATURES);
             // overall_accuracy = (1 / N_TEST) * ( Σ(node_accuracy * n_processed_data) + reminder_accuracy * n_reminders)
@@ -172,7 +173,7 @@ int main(int argc, char** argv) {
             if (MYRANK == 0) {
                 double weighted_reminder_accuracy = 0;
                 if (REMINDER != 0) {
-                    Sample test_samples_node_process[REMINDER];
+                    Sample* test_samples_node_process = new Sample[REMINDER];
                     for (int i = 0; i < REMINDER; i++) {
                         test_samples_node_process[i] = test_samples[i + MYRANK * n_processed_data];
                     }
@@ -183,10 +184,16 @@ int main(int argc, char** argv) {
                 // Print the execution time and write those details into a separated file
                 double endTime= MPI_Wtime();
                 double timeOfExecution = endTime - startTime;
-                printf("\033[;32mExecution time: %.3fs \033[0m(%d overall samples, %d number of features, %d working nodes)\n", timeOfExecution, N_FEATURES, N_TRAIN + N_TEST, SIZE);
+                printf("\033[;32mExecution time: %.3fs \033[0m(%d overall samples, %d working nodes)\n", timeOfExecution, N_TRAIN + N_TEST, SIZE);
                 save_execution_details("executions-details.csv", N_TRAIN + N_TEST, N_FEATURES, SIZE, timeOfExecution);
             }
 
+            // Deallocate memory
+            delete[] train_samples;
+            delete[] test_samples;
+            delete[] train_samples_node_process;
+            delete[] test_samples_node_process;
+            
             MPI_Finalize();
 
             return EXIT_SUCCESS;
