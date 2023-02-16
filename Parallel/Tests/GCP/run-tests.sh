@@ -1,5 +1,5 @@
 # This script executes the KNN distributed program on a cluster, with an already created sample dataset 
-# (at least 55K samples, 50 features and 4 classes)
+# (at least 25K samples, 50 features and 4 classes)
 
 #!/bin/bash
 PS3='Choose your on which cluster configuration you want to perform a test 
