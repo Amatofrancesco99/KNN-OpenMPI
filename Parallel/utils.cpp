@@ -13,14 +13,14 @@ bool check_if_empty(std::ofstream &file){
 
 
 // This function saves into a file, passed as parameter, the execution time (in seconds) and the configuration
-void save_execution_details(const char* file, int N_SAMPLES, int N_SLAVES, double EXECUTION_TIME) { 
+void save_execution_details(const char* file, int N_SAMPLES, int V_CPU, double EXECUTION_TIME) { 
     std::ofstream outfile;
     outfile.open(file, std::ios_base::app); // append instead of overwrite
     // If the file is empty add the header line
     if (check_if_empty(outfile)){
-        outfile << "N_SAMPLES, N_SLAVES, EXECUTION_TIME \n";
+        outfile << "N_SAMPLES, V_CPU, EXECUTION_TIME \n";
     }
-    outfile << N_SAMPLES << ", " << N_SLAVES << ", " << EXECUTION_TIME << "\n";
+    outfile << N_SAMPLES << ", " << V_CPU << ", " << EXECUTION_TIME << "\n";
     outfile.close();
 }
 
